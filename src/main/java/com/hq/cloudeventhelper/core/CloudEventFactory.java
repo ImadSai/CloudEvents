@@ -1,18 +1,39 @@
 package com.hq.cloudeventhelper.core;
 
-import com.hq.cloudeventhelper.config.CloudEventDefaultsProperties;
+import jakarta.annotation.PostConstruct;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
+@Component
+@ConfigurationProperties(prefix = "cloud-event")
 public class CloudEventFactory {
 
-    private final CloudEventDefaultsProperties props;
+    private String source;
 
-    public CloudEventFactory(CloudEventDefaultsProperties props) {
-        this.props = props;
+    // Instance statique pour un accès global
+    private static CloudEventFactory INSTANCE;
+
+    @PostConstruct
+    public void init() {
+        INSTANCE = this;
     }
 
-    public <T> CloudEvent.CloudEventBuilder<T> builder() {
+    // Méthode statique pour accéder au builder
+    public static <T> CloudEvent.CloudEventBuilder<T> builder() {
+        return INSTANCE.builderInstance();
+    }
+
+    private <T> CloudEvent.CloudEventBuilder<T> builderInstance() {
         return CloudEvent.<T>builder()
-                .source(props.getSource());
+                .source(source);
+    }
+
+    // Getters et setters pour les propriétés (obligatoires pour @ConfigurationProperties)
+    public String getSource() {
+        return source;
+    }
+    public void setSource(String source) {
+        this.source = source;
     }
 
 }

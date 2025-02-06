@@ -6,7 +6,6 @@ import com.hq.cloudeventhelper.core.CloudEventFactory;
 import com.hq.cloudeventhelper.events.client.pointdesuivi.PointDeSuiviEventType;
 import com.hq.cloudeventhelper.model.PointDeSuivi;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,9 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Slf4j
 @SpringBootApplication
 public class CloudeventhelperApplication implements CommandLineRunner {
-
-	@Autowired
-	CloudEventFactory cloudEventFactory;
 
 	ObjectMapper objectMapper = new ObjectMapper();
 
@@ -37,7 +33,7 @@ public class CloudeventhelperApplication implements CommandLineRunner {
 				.build();
 
 		// Création de l'événement CloudEvents
-		CloudEvent<PointDeSuivi> cloudEvent = cloudEventFactory.<PointDeSuivi>builder()
+		CloudEvent<PointDeSuivi> cloudEvent = CloudEventFactory.<PointDeSuivi>builder()
 				.userId("USER1")
 				.sessionId("SESSION1")
 				.requestId("REQUEST1")

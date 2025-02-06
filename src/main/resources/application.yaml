@@ -4,6 +4,5 @@ spring:
     name: cloudeventhelper
 
 # Cloud Event Configuration
-cloudevent:
-  defaults:
-    source: "CL"
+cloud-event:
+  source: "CL"
