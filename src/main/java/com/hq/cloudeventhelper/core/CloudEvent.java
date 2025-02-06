@@ -1,11 +1,14 @@
 package com.hq.cloudeventhelper.core;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hq.cloudeventhelper.common.CloudEventContentCategory;
 import com.hq.cloudeventhelper.common.CloudEventDataContentType;
 import com.hq.cloudeventhelper.common.CloudEventSpecVersion;
 import com.hq.cloudeventhelper.common.EventType;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.UUID;
@@ -16,34 +19,46 @@ import java.util.UUID;
  * @param <T> le type du payload
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CloudEvent<T> {
 
-    // Identifiant généré automatiquement.
+    //*******************************//
+    //****** Enterprise Events ******//
+    //*******************************//
+
+    private String userId;
+
+    private String sessionId;
+
+    private String requestId;
+
+    private CloudEventContentCategory contentCategory;
+
+    //*******************************//
+    //********* Cloud Events ********//
+    //*******************************//
+
     @Builder.Default
     private String id = UUID.randomUUID().toString();
 
-    // Date et heure de création générées automatiquement.
     @Builder.Default
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "UTC")
     private Date time = new Date();
 
-    // Version de la spécification CloudEvents.
-    private CloudEventSpecVersion specversion;
+    @Builder.Default
+    private CloudEventSpecVersion specversion = CloudEventSpecVersion.V1;
 
-    // Type d'événement
     private EventType type;
 
-    // Source de l'événement (exemple : URL).
     private String source;
 
-    // Identifiant de l'élément concerné (ex. l'ID de la facture).
     private String subject;
 
-    // Type de contenu des données.
-    private CloudEventDataContentType datacontenttype;
+    @Builder.Default
+    private CloudEventDataContentType datacontenttype = CloudEventDataContentType.APPLICATION_JSON;
 
-    // Payload générique.
     private T data;
 
 }

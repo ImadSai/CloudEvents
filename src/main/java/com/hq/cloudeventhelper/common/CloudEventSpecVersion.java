@@ -5,7 +5,7 @@ package com.hq.cloudeventhelper.common;
  */
 public enum CloudEventSpecVersion {
 
-    V1("1.0");
+    V1("1.0.0");
 
     private final String value;
 

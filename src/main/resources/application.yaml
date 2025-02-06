@@ -1,0 +1,9 @@
+# Spring Boot
+spring:
+  application:
+    name: cloudeventhelper
+
+# Cloud Event Configuration
+cloudevent:
+  defaults:
+    source: "CL"
